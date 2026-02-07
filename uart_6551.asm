@@ -119,31 +119,15 @@ UAINIT:
 ;   Destroys:        none
 ;
 ;================================================================================
-
-; because of the 65C51 ACIA TX bug (see top of this file) we must use 
-; a timed loop to wait until the 65C51 is finished sending the current character
-; (instead of waiting until the ACIA reports that the send register is empty)
+; Deal with a real 6551, not a 65C51N
 UAPUTW:
+    pha                         ; save A (char)
+.tx_wait:
+    lda ACIA_REG_STATUS         ; wait for TX ready (bit 4)
+    and #$10
+    beq .tx_wait
+    pla                         ; restore A (char)
     sta ACIA_REG_DATA           ; transmit data byte
-
-    ; wait until ACIA is done sending the byte
-    pha                         ; save registers
-    txa
-    pha
-    tya
-    ldx #<(ACIA_CHAR_CYCLES/9)+1
-    ldy #>(ACIA_CHAR_CYCLES/9)+1
-L1: nop                         ; these NOPs are here to even out the timing
-    nop                         ; for the inner and outer loop (9 cycles each)
-L2: dex
-    bne L1
-    dey
-    bne L2
-    tay                         ; restore registers
-    pla
-    tax
-    pla
-        
     rts
         
     
