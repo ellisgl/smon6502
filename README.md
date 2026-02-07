@@ -179,7 +179,8 @@ There are three basic settings that can be changed by modifying the `config.asm`
   - Clock speed (default: 1000000). Change this if your system's clock is running at a different rate
     than the standart 1MHz. This setting is used for UART timing.
   - UART driver. Communication with SMON works via RS232 protocol. The following UARTs are supported at this point:
-    - *WCS 65C51N ACIA (default)*. This is the UART Ben Eater is using in his project. The serial parameters are
+    - *MOS 6551 ACIA (default)*.
+      The serial parameters are
       set to 9600 baud, 8 data bits, 1 stop bit and no parity. You can change the serial parameters and base
       address for the ACIA at the top of the `uart_6551.asm` file.
     - *Pseudo-UART using 6522 VIA*.  This emulates a UART using the 6522 VIA present in Ben Eater's design. 
@@ -232,7 +233,3 @@ by GitHub user Michael ([cbmuser](https://github.com/cbmuser)).
 The [code](https://github.com/dhansel/smon6502/blob/main/uart_6522.asm) for handling RS232 communication via the 6522 VIA chip was taken
 and (heavily) adapted from the VIC-20 kernal, using Lee Davidson's 
 [commented disassembly](https://www.mdawson.net/vic20chrome/vic20/docs/kernel_disassembly.txt).
-
-The [code](https://github.com/dhansel/smon6502/blob/main/uart_6551.asm) for handling RS232 communication via the 
-65C51N ACIA chip was put together and tested by Chris McBrien, based on the ACIA code from 
-[Adrien Kohlbecker](https://github.com/adrienkohlbecker/65C816/blob/ep.30/software/lib/acia.a).
